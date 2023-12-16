@@ -16,9 +16,9 @@ from datetime import datetime
 from dateutil import tz
 
 
-_LOCATION = "52.520551,13.461804"
+_LATITUDE = "51.053822"
+_LONGITUDE = "3.722270"
 _METEOMATICS_BASE_URL="https://api.meteomatics.com"
-_METEOMATICS_URL_SUFFIX = "t_2m:C/52.520551,13.461804/json"
 _METEOMATICS_TOKEN_URL="https://login.meteomatics.com/api/v1/token"
 
 
@@ -51,7 +51,8 @@ def main() -> None:
     load_dotenv()
     access_token = _get_access_token(_METEOMATICS_TOKEN_URL)
     weather_params = ["t_2m:C"]
-    url = _construct_url(datetime.now(tz=tz.UTC), weather_params, _LOCATION)
+    location = f"{_LATITUDE},{_LONGITUDE}"
+    url = _construct_url(datetime.now(tz=tz.UTC), weather_params, location)
     response = requests.get(url, {"access_token": access_token})
     print(response.text)
 
