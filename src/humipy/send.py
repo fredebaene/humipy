@@ -54,11 +54,12 @@ def _get_locations(
 def main() -> None:
     load_dotenv()
     db_name = os.getenv("_HUMIPY_DB_NAME")
+    db_port = os.getenv("_HUMIPY_DB_PORT")
     db_username = os.getenv("_HUMIPY_DB_USERNAME")
     db_password = os.getenv("_HUMIPY_DB_PASSWORD")
 
     engine = create_engine(
-        f"postgresql+psycopg2://{db_username}:{db_password}@localhost/{db_name}"
+        f"postgresql+psycopg2://{db_username}:{db_password}@localhost:{db_port}/{db_name}"
     )
 
     metadata = MetaData()
