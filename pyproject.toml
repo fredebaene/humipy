@@ -14,6 +14,9 @@ dependencies = [
 [project.scripts]
 humipy = "humipy.__main__:main"
 
+[tool.setuptools.dynamic]
+version = {attr = "humipy.__version__"}
+
 [project.optional-dependencies]
 dev = [
     "mypy==1.7.1",
