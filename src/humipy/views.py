@@ -66,7 +66,3 @@ def render_app_exit():
     """
     console = Console()
     console.print(Panel("Goodbye!"))
-
-
-if __name__ == "__main__":
-    render_locations_table()
