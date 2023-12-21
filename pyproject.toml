@@ -11,6 +11,9 @@ dependencies = [
     "rich==13.7.0",
 ]
 
+[project.scripts]
+humipy = "humipy.__main__:main"
+
 [project.optional-dependencies]
 dev = [
     "mypy==1.7.1",
