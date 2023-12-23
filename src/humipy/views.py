@@ -3,7 +3,7 @@ from rich.table import Table
 from rich.prompt import Prompt
 from rich.panel import Panel
 from rich.padding import Padding
-from humipy.read_database import get_locations, get_sensors
+from humipy.database.read import get_locations, get_sensors
 import sqlalchemy
 
 
@@ -44,15 +44,15 @@ def render_sensors_table(engine: sqlalchemy.engine.base.Engine) -> str:
     console = Console()
     table = Table(caption="Sensors", caption_justify="left")
     table.add_column("ID", style="cyan", justify="left", vertical="middle", min_width=4)
-    table.add_column("Name", justify="left", vertical="middle", min_width=30)
     table.add_column("Serial Nr.", justify="left", vertical="middle", min_width=30)
+    table.add_column("Type", justify="left", vertical="middle", min_width=30)
     sensors = get_sensors(engine).to_dict(orient="records")
 
     for row in sensors:
         table.add_row(
             str(row["sensor_id"]),
-            row["sensor_name"],
-            str(row["sensor_serial_number"]),
+            row["sensor_serial_number"],
+            row["sensor_type"],
         )
 
     console.print(Panel("Available Sensors"))
