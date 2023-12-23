@@ -3,10 +3,11 @@ from rich.table import Table
 from rich.prompt import Prompt
 from rich.panel import Panel
 from rich.padding import Padding
-from humipy.send import get_locations
+from humipy.read_database import get_locations, get_sensors
+import sqlalchemy
 
 
-def render_locations_table() -> str:
+def render_locations_table(engine: sqlalchemy.engine.base.Engine) -> str:
     """
     This function renders a table with all available locations. The function 
     then returns menu option 'd'. The database menu is the only menu from 
@@ -20,12 +21,41 @@ def render_locations_table() -> str:
     table = Table(caption="Locations", caption_justify="left")
     table.add_column("ID", style="cyan", justify="left", vertical="middle", min_width=4)
     table.add_column("Location", justify="left", vertical="middle", min_width=30)
-    locations = get_locations().to_dict(orient="records")
+    locations = get_locations(engine).to_dict(orient="records")
 
     for row in locations:
         table.add_row(str(row["location_id"]), row["location_name"])
 
     console.print(Panel("Available Locations"))
+    console.print(Padding(table, (0, 0, 0, 2)))
+    return "d"
+
+
+def render_sensors_table(engine: sqlalchemy.engine.base.Engine) -> str:
+    """
+    This function renders a table with all available sensors. The function 
+    then returns menu option 'd'. The database menu is the only menu from 
+    which the user can access a list of the sensors. Therefore, the app must 
+    redirect the user to the database menu
+
+    Returns:
+        str: menu option (always 'd').
+    """
+    console = Console()
+    table = Table(caption="Sensors", caption_justify="left")
+    table.add_column("ID", style="cyan", justify="left", vertical="middle", min_width=4)
+    table.add_column("Name", justify="left", vertical="middle", min_width=30)
+    table.add_column("Serial Nr.", justify="left", vertical="middle", min_width=30)
+    sensors = get_sensors(engine).to_dict(orient="records")
+
+    for row in sensors:
+        table.add_row(
+            str(row["sensor_id"]),
+            row["sensor_name"],
+            str(row["sensor_serial_number"]),
+        )
+
+    console.print(Panel("Available Sensors"))
     console.print(Padding(table, (0, 0, 0, 2)))
     return "d"
 
@@ -54,10 +84,11 @@ def render_database_menu() -> str:
     console = Console()
     console.print(Panel("Database Management"))
     console.print(Padding("- List locations \[l]", (0, 0, 0, 2)))
+    console.print(Padding("- List sensors \[s]", (0, 0, 0, 2)))
     console.print(Padding("- Go back to main menu \[m]", (0, 0, 0, 2)))
     console.print(Padding("- Quit \[q]", (0, 0, 0, 2)))
     console.print("")
-    return Prompt.ask("  What do you want to do?", choices=["l", "m", "q"])
+    return Prompt.ask("  What do you want to do?", choices=["l", "s", "m", "q"])
 
 
 def render_app_exit():
