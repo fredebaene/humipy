@@ -5,13 +5,15 @@ import sqlalchemy
 from typing import Optional
 
 
-def add_new_location(
+def add_location(
         engine: sqlalchemy.engine.base.Engine,
         location_name: str) -> None:
     """
     This function adds a new location to the locations database table.
 
     Args:
+        engine (sqlalchemy.engine.base.Engine): engine object to create 
+            connection.
         location_name (str): location name.
     """
     stmt = insert(locations_table).values(location_name=location_name)
