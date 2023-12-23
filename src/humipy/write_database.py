@@ -18,3 +18,30 @@ def add_new_location(
         result = conn.execute(stmt)
         conn.commit()
     return result
+
+
+def add_sensor(
+        engine: sqlalchemy.engine.base.Engine,
+        sensor_name: str,
+        sensor_serial_number: Optional[int] = None) -> None:
+    """
+    This function adds a sensor to the sensors database table.
+
+    Args:
+        engine (sqlalchemy.engine.base.Engine): engine object to create 
+            connection.
+        sensor_name (str): the sensor name.
+        sensor_serial_number (Optional[int], optional): the sensor serial 
+            number. Defaults to None.
+    """
+    stmt = (
+        insert(sensors_table)
+        .values(
+            sensor_name=sensor_name,
+            sensor_serial_number=sensor_serial_number
+        )
+    )
+    with engine.connect() as conn:
+        result = conn.execute(stmt)
+        conn.commit()
+    return result
