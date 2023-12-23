@@ -28,3 +28,33 @@ def render_locations_table(engine: sqlalchemy.engine.base.Engine) -> str:
     console.print(Panel("Available Locations"))
     console.print(Padding(table, (0, 0, 0, 2)))
     return "d"
+
+
+def render_location_addition(engine: sqlalchemy.engine.base.Engine) -> str:
+    """
+    This function renders a prompt which asks the user for a new location. The 
+    prompt for a new location is repeated until the user enters a new 
+    location, i.e., a location that is not already in the database, or enters 
+    the word 'quit'. The function returns menu option 'd'. The database menu 
+    is the only menu from which the user can access a list of the locations. 
+    Therefore, the app must redirect the user to the database menu.
+    
+    Args:
+        engine (sqlalchemy.engine.base.Engine): a SQLAlchemy engine object.
+
+    Returns:
+        str: menu option (always 'd').
+    """
+    continue_asking = True
+    prompt_msg = "  What location do you want to add (enter 'quit' to abort)?"
+    console = Console()
+    console.print(Panel("Add Location"))
+    while continue_asking:
+        location_name = Prompt.ask(prompt_msg)
+        if location_name == "quit":
+            continue_asking = False
+        else:
+            continue_asking = (
+                False if add_location(engine, location_name) else True
+            )
+    return "d"
