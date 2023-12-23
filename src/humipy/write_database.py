@@ -1,7 +1,6 @@
-from humipy.models import metadata, locations_table, sensors_table
-from sqlalchemy import insert
-from humipy.send import _get_engine
+from humipy.models import locations_table, sensors_table
 import sqlalchemy
+from sqlalchemy import insert
 from typing import Optional
 
 
