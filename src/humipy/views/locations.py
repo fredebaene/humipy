@@ -1,7 +1,9 @@
 from humipy.database.read import get_locations
+from humipy.database.write import add_location
 from rich.console import Console
 from rich.padding import Padding
 from rich.panel import Panel
+from rich.prompt import Prompt
 from rich.table import Table
 import sqlalchemy
 
@@ -11,7 +13,10 @@ def render_locations_table(engine: sqlalchemy.engine.base.Engine) -> str:
     This function renders a table with all available locations. The function 
     then returns menu option 'd'. The database menu is the only menu from 
     which the user can access a list of the locations. Therefore, the app must 
-    redirect the user to the database menu
+    redirect the user to the database menu.
+
+    Args:
+        engine (sqlalchemy.engine.base.Engine): a SQLAlchemy engine object.
 
     Returns:
         str: menu option (always 'd').
