@@ -9,7 +9,7 @@ def add_location(
         engine: sqlalchemy.engine.base.Engine,
         location_name: str) -> None:
     """
-    This function adds a new location to the locations database table.
+    This function adds a location to the locations database table.
 
     Args:
         engine (sqlalchemy.engine.base.Engine): engine object to create 
