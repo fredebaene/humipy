@@ -12,8 +12,7 @@ def add_location(
     This function adds a location to the locations database table.
 
     Args:
-        engine (sqlalchemy.engine.base.Engine): engine object to create 
-            connection.
+        engine (sqlalchemy.engine.base.Engine): a SQLAlchemy engine object.
         location_name (str): location name.
     """
     stmt = insert(locations_table).values(location_name=location_name)
@@ -31,8 +30,7 @@ def add_sensor(
     This function adds a sensor to the sensors database table.
 
     Args:
-        engine (sqlalchemy.engine.base.Engine): engine object to create 
-            connection.
+        engine (sqlalchemy.engine.base.Engine): a SQLAlchemy engine object.
         sensor_name (str): the sensor name.
         sensor_serial_number (Optional[int], optional): the sensor serial 
             number. Defaults to None.
