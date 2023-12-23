@@ -31,7 +31,7 @@ def add_sensor(
 
     Args:
         engine (sqlalchemy.engine.base.Engine): a SQLAlchemy engine object.
-        sensor_name (str): the sensor name.
+        sensor_name (str): sensor name.
         sensor_serial_number (Optional[int], optional): the sensor serial 
             number. Defaults to None.
     """
