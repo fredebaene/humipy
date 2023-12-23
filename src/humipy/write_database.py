@@ -2,6 +2,7 @@ from humipy.models import metadata, locations_table, sensors_table
 from sqlalchemy import insert
 from humipy.send import _get_engine
 import sqlalchemy
+from typing import Optional
 
 
 def add_new_location(
