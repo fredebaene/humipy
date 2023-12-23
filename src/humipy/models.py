@@ -4,12 +4,14 @@ from sqlalchemy import Integer, String
 
 metadata = MetaData()
 
+
 locations_table = Table(
     "locations",
     metadata,
     Column("location_id", Integer, primary_key=True),
     Column("location_name", String, nullable=False),
 )
+
 
 sensors_table = Table(
     "sensors",
