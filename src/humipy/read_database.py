@@ -9,7 +9,7 @@ def get_locations(engine: sqlalchemy.engine.base.Engine) -> pd.DataFrame:
     This function retrieves all locations from the locations database table.
 
     Args:
-        engine (sqlalchemy.engine.base.Engine): an SQLAlchemy engine object.
+        engine (sqlalchemy.engine.base.Engine): a SQLAlchemy engine object.
 
     Returns:
         pd.DataFrame: a data frame with all locations.
@@ -25,7 +25,7 @@ def get_sensors(engine: sqlalchemy.engine.base.Engine) -> pd.DataFrame:
     This function retrieves all sensors from the sensors database table.
 
     Args:
-        engine (sqlalchemy.engine.base.Engine): an SQLAlchemy engine object.
+        engine (sqlalchemy.engine.base.Engine): a SQLAlchemy engine object.
 
     Returns:
         pd.DataFrame: a data frame with all sensors.
