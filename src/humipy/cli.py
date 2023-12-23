@@ -1,15 +1,11 @@
 from rich import print
 from rich.console import Group
 from rich.panel import Panel
-from humipy.views import (
-    render_app_exit,
-    render_database_menu,
-    render_locations_table,
-    render_main_menu,
-    render_sensors_table,
-)
 from humipy.database import connect, read, write
-from humipy.send import _get_engine
+from humipy.views.locations import render_locations_table
+from humipy.views.sensors import render_sensors_table
+from humipy.views.menus import render_main_menu, render_database_menu
+from humipy.views.exit import render_app_exit
 
 
 def render_app(menu_option: str = "m") -> None:
