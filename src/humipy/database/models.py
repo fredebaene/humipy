@@ -17,6 +17,6 @@ sensors_table = Table(
     "sensors",
     metadata,
     Column("sensor_id", Integer, primary_key=True),
-    Column("sensor_serial_number", Integer, nullable=False),
+    Column("sensor_serial_number", String, nullable=False),
     Column("sensor_type", String, nullable=True),
 )
