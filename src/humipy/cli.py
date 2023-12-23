@@ -8,12 +8,13 @@ from humipy.views import (
     render_main_menu,
     render_sensors_table,
 )
+from humipy.database import connect, read, write
 from humipy.send import _get_engine
 
 
 def render_app(menu_option: str = "m") -> None:
     # Initialize a SQLAlchemy engine
-    engine = _get_engine()
+    engine = connect.get_engine()
     # Render the different menu options
     while menu_option != "q":
         if menu_option == "m":
