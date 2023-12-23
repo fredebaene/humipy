@@ -10,11 +10,11 @@ def get_engine() -> sqlalchemy.engine.base.Engine:
     factory and connection pool.
 
     Returns:
-        sqlalchemy.engine.base.Engine: engine object.
+        sqlalchemy.engine.base.Engine: a SQLAlchemy engine object.
     """
     # Load the appropriate environment variables from the environment file
     load_dotenv()
-    
+
     db = getenv("DB_NAME")
     host = getenv("DB_HOST")
     port = getenv("DB_PORT")
