@@ -1,4 +1,4 @@
-from humipy.models import locations_table, sensors_table
+from humipy.database.models import locations_table, sensors_table
 import pandas as pd
 import sqlalchemy
 from sqlalchemy import select
