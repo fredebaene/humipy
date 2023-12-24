@@ -71,3 +71,47 @@ def add_sensor(
         )
         conn.commit()
     return True
+
+
+def start_sensor_placement(
+        engine: sqlalchemy.engine.base.Engine,
+        location_name: str,
+        sensor_serial_number: str,
+        start_placement: Optional[datetime] = None):
+    # Initialize a start placement date if required (i.e., if the user did not 
+    # specify a start date)
+    start_placement = (
+        datetime.now() if start_placement is None else start_placement
+    )
+
+    # Initialize subqueries
+    scalar_sensor_subquery = (
+        select(sensors_table.c.sensor_id)
+        .where(sensors_table.c.sensor_serial_number == bindparam("sensor_serial_number"))
+        .scalar_subquery()
+    )
+    scalar_location_subquery = (
+        select(locations_table.c.location_id)
+        .where(locations_table.c.location_name == bindparam("location_name"))
+        .scalar_subquery()
+    )
+
+    # Create insert construct
+    stmt = (
+        insert(sensor_locations_table)
+        .values(
+            sensor_id=scalar_sensor_subquery,
+            location_id=scalar_location_subquery,
+        )
+    )
+
+    with engine.connect() as conn:
+        res = conn.execute(
+            stmt,
+            {
+                "location_name": location_name,
+                "sensor_serial_number": sensor_serial_number,
+                "start_placement": start_placement,
+            }
+        )
+        conn.commit()
