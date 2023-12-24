@@ -27,9 +27,10 @@ def add_location(
         return False
     
     # Proceed with inserting a new location to the locations database table
-    stmt = insert(locations_table).values(location_name=location_name)
     with engine.connect() as conn:
-        res = conn.execute(stmt)
+        res = conn.execute(
+            insert(locations_table), {"location_name": location_name}
+        )
         conn.commit()
     return True
 
