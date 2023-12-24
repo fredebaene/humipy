@@ -61,14 +61,13 @@ def add_sensor(
         return False
 
     # Proceed with inserting a new sensor to the sensors database table
-    stmt = (
-        insert(sensors_table)
-        .values(
-            sensor_serial_number=sensor_serial_number,
-            sensor_type=sensor_type,
-        )
-    )
     with engine.connect() as conn:
-        res = conn.execute(stmt)
+        res = conn.execute(
+            insert(sensors_table),
+            {
+                "sensor_serial_number": sensor_serial_number,
+                "sensor_type": sensor_type,
+            },
+        )
         conn.commit()
     return True
