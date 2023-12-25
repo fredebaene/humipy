@@ -1,7 +1,9 @@
 from humipy.database.read import get_sensors
+from humipy.database.write import add_sensor
 from rich.console import Console
 from rich.padding import Padding
 from rich.panel import Panel
+from rich.prompt import Prompt
 from rich.table import Table
 import sqlalchemy
 
