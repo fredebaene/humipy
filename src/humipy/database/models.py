@@ -31,3 +31,13 @@ sensor_locations_table = Table(
     Column("start_placement", Date, nullable=False),
     Column("stop_placement", Date, nullable=True),
 )
+
+
+humidity_measurements_table = Table(
+    "humidity_measurements",
+    metadata,
+    Column("humidity_measurement_id", Integer, primary_key=True),
+    Column("sensor_location_id", nullable=False),
+    Column("humidity", nullable=True),
+    Column("measurement_time", Date, nullable=False),
+)
