@@ -1,8 +1,10 @@
 import datetime
 from humipy.database.read import get_open_sensor_locations
+from humipy.database.write import start_sensor_placement
 from rich.console import Console
 from rich.padding import Padding
 from rich.panel import Panel
+from rich.prompt import Prompt
 from rich.table import Table
 import sqlalchemy
 
@@ -45,4 +47,38 @@ def render_open_sensor_locations_table(
     
     console.print(Panel("Available Sensors"))
     console.print(Padding(table, (0, 0, 0, 2)))
+    return "d"
+
+
+def render_start_placement(engine: sqlalchemy.engine.base.Engine) -> str:
+    """
+    This function renders a prompt which asks the user to start a sensor 
+    placement. The prompt for a new sensor placement is repeated until the 
+    user enters a sensor for which there is no open placement or enters the  
+    word 'quit'. The function returns menu option 'd'. The database menu 
+    is the only menu from which the user can start a new sensor placement. 
+    Therefore, the app must redirect the user to the database menu.
+    
+    Args:
+        engine (sqlalchemy.engine.base.Engine): a SQLAlchemy engine object.
+
+    Returns:
+        str: menu option (always 'd').
+    """
+    continue_asking = True
+    prompt_msg_serial_nr = "  Enter serial number"
+    prompt_msg_type = "  Enter location"
+    console = Console()
+    console.print(Panel("Add Sensor"))
+    while continue_asking:
+        sensor_serial_number = Prompt.ask(prompt_msg_serial_nr)
+        location_name = Prompt.ask(prompt_msg_type)
+        if sensor_serial_number == "quit" or location_name == "quit":
+            continue_asking = False
+        else:
+            continue_asking = (
+                False if start_sensor_placement(
+                    engine, location_name, sensor_serial_number
+                ) else True
+            )
     return "d"
