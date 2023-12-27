@@ -84,13 +84,19 @@ def start_sensor_placement(
         location_name: str,
         sensor_serial_number: str,
         start_placement: Optional[datetime] = None):
+    # First, check if there not is an open sensor location for the sensor of 
+    # interest. If that is the case, then no placement can be started for that 
+    # particular sensor.
+    if len(get_open_sensor_location(engine, sensor_serial_number)) > 0:
+        return False
+    
     # Initialize a start placement date if required (i.e., if the user did not 
     # specify a start date)
     start_placement = (
         datetime.now() if start_placement is None else start_placement
     )
-
-    # Initialize subqueries
+    
+    # Initialize the required query constructs
     scalar_sensor_subquery = (
         select(sensors_table.c.sensor_id)
         .where(sensors_table.c.sensor_serial_number == bindparam("sensor_serial_number"))
@@ -101,8 +107,6 @@ def start_sensor_placement(
         .where(locations_table.c.location_name == bindparam("location_name"))
         .scalar_subquery()
     )
-
-    # Create insert construct
     stmt = (
         insert(sensor_locations_table)
         .values(
@@ -121,6 +125,7 @@ def start_sensor_placement(
             }
         )
         conn.commit()
+    return True
 
 
 def stop_sensor_placement(
