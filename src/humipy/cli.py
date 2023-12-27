@@ -23,6 +23,10 @@ def render_app(menu_option: str = "m") -> None:
             menu_option = render_sensors_table(engine)
         elif menu_option == "a":
             menu_option = render_location_addition(engine)
+        elif menu_option == "w":
+            menu_option = render_sensor_addition(engine)
+        elif menu_option == "o":
+            menu_option = render_open_sensor_locations_table(engine)
 
     # Exit from the application and give a nice message to the user
     render_app_exit()
