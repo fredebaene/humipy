@@ -1,6 +1,12 @@
-from humipy.database.models import locations_table, sensors_table
+from datetime import datetime
+from humipy.database.models import (
+    locations_table,
+    sensors_table,
+    sensor_locations_table,
+)
+from humipy.database.read import get_open_sensor_location
 import sqlalchemy
-from sqlalchemy import insert, select
+from sqlalchemy import bindparam, insert, select, update
 from typing import Optional
 
 
