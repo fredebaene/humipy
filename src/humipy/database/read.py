@@ -1,4 +1,5 @@
 from humipy.database.models import (
+    humidity_measurements_table,
     locations_table,
     sensors_table,
     sensor_locations_table,
@@ -125,3 +126,56 @@ def _get_sensor_locations_base_query() -> sqlalchemy.sql.selectable.Select:
             sensor_locations_table.c.location_id == locations_table.c.location_id
         )
     )
+
+
+def get_recent_measurements(
+        engine: sqlalchemy.engine.base.Engine,
+        top_n: int) -> pd.DataFrame:
+    """
+    This function retrieves the n most recent humidity measurements from the 
+    appropriate database tables.
+
+    Args:
+        engine (sqlalchemy.engine.base.Engine): a SQLAlchemy engine object.
+        top_n (int): the n most recent measurements to retrieve.
+
+    Returns:
+        pd.DataFrame: a data frame with the most recent humidity measurements.
+    """
+    stmt = (
+        select(
+            humidity_measurements_table,
+            sensor_locations_table,
+            sensors_table,
+            locations_table,
+        )
+        .join_from(
+            humidity_measurements_table,
+            sensor_locations_table,
+            (
+                humidity_measurements_table.c.sensor_location_id
+                == sensor_locations_table.c.sensor_location_id
+            ),
+        )
+        .join_from(
+            sensor_locations_table,
+            sensors_table,
+            (
+                sensor_locations_table.c.sensor_id
+                == sensors_table.c.sensor_id
+            ),
+        )
+        .join_from(
+            sensor_locations_table,
+            locations_table,
+            (
+                sensor_locations_table.c.location_id
+                == locations_table.c.location_id
+            ),
+        )
+        .order_by(humidity_measurements_table.c.measurement_time.desc())
+        .limit(top_n)
+    )
+    with engine.connect() as conn:
+        df = pd.read_sql_query(stmt, conn)
+    return df
