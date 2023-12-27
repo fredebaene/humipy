@@ -1,5 +1,6 @@
 from datetime import datetime
 from humipy.database.models import (
+    humidity_measurements_table,
     locations_table,
     sensors_table,
     sensor_locations_table,
@@ -184,6 +185,39 @@ def stop_sensor_placement(
         update(sensor_locations_table)
         .where(sensor_locations_table.c.sensor_location_id == sensor_location_id)
         .values(stop_placement=stop_placement)
+    )
+
+    with engine.connect() as conn:
+        conn.execute(stmt)
+        conn.commit()
+
+
+def push_measurement(
+        engine: sqlalchemy.engine.base.Engine,
+        sensor_serial_number: str,
+        location_name: str,
+        measurement: float):
+    """
+    This function pushes a humidity measurement to the appropriate database 
+    table.
+
+    Args:
+        engine (sqlalchemy.engine.base.Engine): a SQLAlchemy engine object.
+        sensor_serial_number (str): the sensor serial number.
+        location_name (str): the location name.
+        measurement (float): the humidity measurement.
+    """
+    sensor_location_id = (
+        get_open_sensor_location(engine, sensor_serial_number)
+        ["sensor_location_id"].iloc[0]
+    )
+    stmt = (
+        insert(humidity_measurements_table)
+        .values(
+            sensor_location_id=int(sensor_location_id),
+            humidity=measurement,
+            measurement_time=datetime.now(),
+        )
     )
 
     with engine.connect() as conn:
