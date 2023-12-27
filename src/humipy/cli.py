@@ -12,6 +12,7 @@ from humipy.views.sensor_locations import (
     render_open_sensor_locations_table,
     render_start_placement,
 )
+from humipy.views.measurements import render_measurements_view
 from humipy.views.exit import render_app_exit
 
 
@@ -36,6 +37,8 @@ def render_app(menu_option: str = "m") -> None:
             menu_option = render_open_sensor_locations_table(engine)
         elif menu_option == "b":
             menu_option = render_start_placement(engine)
+        elif menu_option == "e":
+            menu_option = render_measurements_view(engine, 25)
 
     # Exit from the application and give a nice message to the user
     render_app_exit()
