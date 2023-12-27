@@ -31,9 +31,11 @@ def render_database_menu() -> str:
     console.print(Padding("- Add location \[a]", (0, 0, 0, 2)))
     console.print(Padding("- List sensors \[s]", (0, 0, 0, 2)))
     console.print(Padding("- Add sensor \[w]", (0, 0, 0, 2)))
+    console.print(Padding("- Get open sensor locations \[o]", (0, 0, 0, 2)))
     console.print(Padding("- Go back to main menu \[m]", (0, 0, 0, 2)))
     console.print(Padding("- Quit \[q]", (0, 0, 0, 2)))
     console.print("")
     return Prompt.ask(
-        "  What do you want to do?", choices=["l", "a", "s", "w", "m", "q"]
+        "  What do you want to do?",
+        choices=["l", "a", "s", "w", "o", "m", "q"],
     )
