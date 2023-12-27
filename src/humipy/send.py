@@ -12,18 +12,22 @@ import pandas as pd
 from typing import Tuple
 
 
-def _get_engine():
+def _get_engine() -> sqlalchemy.engine.base.Engine:
+    """
+    This function initializes an engine. This engine functions as a connection 
+    factory and connection pool.
+
+    Returns:
+        sqlalchemy.engine.base.Engine: engine object.
+    """
     load_dotenv()
-    db_name = os.getenv("_HUMIPY_DB_NAME")
-    db_port = os.getenv("_HUMIPY_DB_PORT")
-    db_username = os.getenv("_HUMIPY_DB_USERNAME")
-    db_password = os.getenv("_HUMIPY_DB_PASSWORD")
-
-    engine = create_engine(
-        f"postgresql+psycopg2://{db_username}:{db_password}@localhost:{db_port}/{db_name}"
+    db = os.getenv("_HUMIPY_DB_NAME")
+    port = os.getenv("_HUMIPY_DB_PORT")
+    username = os.getenv("_HUMIPY_DB_USERNAME")
+    password = os.getenv("_HUMIPY_DB_PASSWORD")
+    return create_engine(
+        f"postgresql+psycopg2://{username}:{password}@localhost:{port}/{db}"
     )
-
-    return engine
 
 
 def _construct_locations_table() -> Tuple[MetaData, Table]:
