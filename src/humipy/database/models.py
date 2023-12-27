@@ -1,5 +1,5 @@
 from sqlalchemy import Column, MetaData, Table
-from sqlalchemy import Date, Integer, String
+from sqlalchemy import Date, Float, Integer, String
 
 
 metadata = MetaData()
@@ -37,7 +37,7 @@ humidity_measurements_table = Table(
     "humidity_measurements",
     metadata,
     Column("humidity_measurement_id", Integer, primary_key=True),
-    Column("sensor_location_id", nullable=False),
-    Column("humidity", nullable=True),
+    Column("sensor_location_id", Integer, nullable=False),
+    Column("humidity", Float, nullable=True),
     Column("measurement_time", Date, nullable=False),
 )
