@@ -6,6 +6,7 @@ from humipy.database.models import (
 import pandas as pd
 import sqlalchemy
 from sqlalchemy import select
+from typing import Optional
 
 
 def get_locations(engine: sqlalchemy.engine.base.Engine) -> pd.DataFrame:
@@ -57,6 +58,30 @@ def get_sensor_locations(
         df = pd.read_sql_query(stmt, conn)
     return df
 
+
+def get_open_sensor_location(
+        engine: sqlalchemy.engine.base.Engine,
+        sensor_serial_number: Optional[str] = None) -> pd.DataFrame:
+    """
+    This function queries the database to look for a particular sensor if 
+    there is an open sensor location.
+
+    Args:
+        engine (sqlalchemy.engine.base.Engine): a SQLAlchemy engine object.
+        sensor_serial_number (str): the sensor serial number.
+
+    Returns:
+        pd.DataFrame: a data frame with the open sensor location for the 
+            specific sensor, if there is an open location.
+    """
+    stmt = (
+        _get_sensor_locations_base_query()
+        .where(sensor_locations_table.c.stop_placement == None)
+        .where(sensors_table.c.sensor_serial_number == sensor_serial_number)
+    )
+    with engine.connect() as conn:
+        df = pd.read_sql_query(stmt, conn)
+    return df
 
 def get_open_sensor_locations(
         engine: sqlalchemy.engine.base.Engine) -> pd.DataFrame:
