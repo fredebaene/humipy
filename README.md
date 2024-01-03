@@ -1,4 +1,4 @@
-# HumiPY
+# HumiPy
 
 A Python application to keep track of humidity.
 
