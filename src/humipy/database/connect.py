@@ -1,11 +1,15 @@
 from dotenv import load_dotenv
 from humipy.database.models import metadata
 from humipy.database.write import (
-    add_location, add_sensor, start_sensor_placement
+    add_location, add_sensor, start_sensor_placement, push_measurement
 )
 from os import getenv
+import random
 import sqlalchemy
 from sqlalchemy import create_engine
+
+
+_SENSORS = ["XIE-385A92H20-T0", "XIA-502A92V37-T7"]
 
 
 def get_engine(dev: bool = False) -> sqlalchemy.engine.base.Engine:
@@ -48,8 +52,7 @@ def _create_test_database(engine: sqlalchemy.engine.base.Engine) -> None:
     metadata.create_all(engine)
     for location in ["Kitchen", "Bathroom", "Bedroom"]:
         add_location(engine, location)
-    sensors = [("XIE-385A92H20-T0", "DHT11"), ("XIA-502A92V37-T7", "DHT11")]
-    for sensor in sensors:
-        add_sensor(engine, sensor[0], sensor[1])
-    start_sensor_placement(engine, "Bathroom", "XIE-385A92H20-T0")
-    start_sensor_placement(engine, "Kitchen", "XIA-502A92V37-T7")
+    for sensor in _SENSORS:
+        add_sensor(engine, sensor, "DHT11")
+    start_sensor_placement(engine, "Bathroom", _SENSORS[0])
+    start_sensor_placement(engine, "Kitchen", _SENSORS[1])
