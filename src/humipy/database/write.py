@@ -195,7 +195,6 @@ def stop_sensor_placement(
 def push_measurement(
         engine: sqlalchemy.engine.base.Engine,
         sensor_serial_number: str,
-        location_name: str,
         measurement: float):
     """
     This function pushes a humidity measurement to the appropriate database 
@@ -204,7 +203,6 @@ def push_measurement(
     Args:
         engine (sqlalchemy.engine.base.Engine): a SQLAlchemy engine object.
         sensor_serial_number (str): the sensor serial number.
-        location_name (str): the location name.
         measurement (float): the humidity measurement.
     """
     sensor_location_id = (
