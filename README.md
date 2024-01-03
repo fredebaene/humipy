@@ -21,3 +21,12 @@ higher, and then install the application from GitHub:
 ```
 pip install git+https://github.com/fredebaene/humipy.git
 ```
+
+## Usage
+
+Use the following command to run the application from the command line in test 
+mode:
+
+```
+humipy --dev
+```
