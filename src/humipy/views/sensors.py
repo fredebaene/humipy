@@ -58,14 +58,11 @@ def render_sensor_addition(engine: sqlalchemy.engine.base.Engine) -> str:
     console = Console()
     console.print(Panel("Add Sensor"))
     while continue_asking:
-        sensor_serial_number = Prompt.ask(prompt_msg_serial_nr)
+        sensor_sn = Prompt.ask(prompt_msg_serial_nr)
+        if sensor_sn == "quit":
+            break
         sensor_type = Prompt.ask(prompt_msg_type)
-        if sensor_serial_number == "quit" or sensor_type == "quit":
-            continue_asking = False
-        else:
-            continue_asking = (
-                False if add_sensor(
-                    engine, sensor_serial_number, sensor_type
-                ) else True
-            )
+        if sensor_type == "quit":
+            break
+        continue_asking = not add_sensor(engine, sensor_sn, sensor_type)
     return "d"
