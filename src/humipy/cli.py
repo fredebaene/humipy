@@ -38,7 +38,7 @@ def render_app(dev: bool, menu_option: str = "m") -> None:
         elif menu_option == "b":
             menu_option = render_start_placement(engine)
         elif menu_option == "e":
-            menu_option = render_measurements_view(engine, 25)
+            menu_option = render_measurements_view(engine, 25, dev)
 
     # Exit from the application and give a nice message to the user
     render_app_exit()
