@@ -16,9 +16,9 @@ from humipy.views.measurements import render_measurements_view
 from humipy.views.exit import render_app_exit
 
 
-def render_app(menu_option: str = "m") -> None:
+def render_app(dev: bool, menu_option: str = "m") -> None:
     # Initialize a SQLAlchemy engine
-    engine = connect.get_engine()
+    engine = connect.get_engine(dev)
     # Render the different menu options
     while menu_option != "q":
         if menu_option == "m":
