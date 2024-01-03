@@ -13,6 +13,10 @@ def get_engine(dev: bool = False) -> sqlalchemy.engine.base.Engine:
     This function initializes an engine. This engine functions as a connection 
     factory and connection pool.
 
+    Args:
+        dev (bool, optional): indicator to indicate to use the test 
+            environment or a production environment. Defaults to False.
+
     Returns:
         sqlalchemy.engine.base.Engine: a SQLAlchemy engine object.
     """
