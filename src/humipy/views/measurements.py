@@ -1,4 +1,5 @@
 import contextlib
+from humipy.database._dummy import _push_dummy_measurements
 from humipy.database.read import get_recent_measurements
 from rich.live import Live
 from rich.table import Table
@@ -43,7 +44,8 @@ def get_measurements_table(
 
 def render_measurements_view(
         engine: sqlalchemy.engine.base.Engine,
-        top_n: int) -> str:
+        top_n: int,
+        dev: bool = False) -> str:
     """
     This function renders a live view showing the n most recent humidity 
     measurements. The function returns menu option 'm'. The main menu is the 
@@ -57,6 +59,8 @@ def render_measurements_view(
     Returns:
         str: menu option (always 'm').
     """
+    if dev:
+        _push_dummy_measurements(engine)
     with Live(get_measurements_table(engine, top_n), screen=True) as live:
         index = 0
         with contextlib.suppress(KeyboardInterrupt):
