@@ -2,16 +2,23 @@ from rich import print
 from rich.console import Group
 from rich.panel import Panel
 from humipy.database import connect, read, write
-from humipy.views.locations import render_locations_table, render_location_addition
+from humipy.views.locations import (
+    render_locations_table,
+    render_location_addition,
+)
 from humipy.views.sensors import render_sensors_table, render_sensor_addition
 from humipy.views.menus import render_main_menu, render_database_menu
-from humipy.views.sensor_locations import render_open_sensor_locations_table, render_start_placement
+from humipy.views.sensor_locations import (
+    render_open_sensor_locations_table,
+    render_start_placement,
+)
+from humipy.views.measurements import render_measurements_view
 from humipy.views.exit import render_app_exit
 
 
-def render_app(menu_option: str = "m") -> None:
+def render_app(dev: bool, menu_option: str = "m") -> None:
     # Initialize a SQLAlchemy engine
-    engine = connect.get_engine()
+    engine = connect.get_engine(dev)
     # Render the different menu options
     while menu_option != "q":
         if menu_option == "m":
@@ -30,6 +37,8 @@ def render_app(menu_option: str = "m") -> None:
             menu_option = render_open_sensor_locations_table(engine)
         elif menu_option == "b":
             menu_option = render_start_placement(engine)
+        elif menu_option == "e":
+            menu_option = render_measurements_view(engine, 25, dev)
 
     # Exit from the application and give a nice message to the user
     render_app_exit()

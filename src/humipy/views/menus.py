@@ -12,9 +12,10 @@ def render_main_menu() -> str:
     console = Console()
     console.print(Panel("Main Menu"))
     console.print(Padding("- Manage database \[d]", (0, 0, 0, 2)))
+    console.print(Padding("- Show measurements \[e]", (0, 0, 0, 2)))
     console.print(Padding("- Quit \[q]", (0, 0, 0, 2)))
     console.print("")
-    return Prompt.ask("  What do you want to do?", choices=["d", "q"])
+    return Prompt.ask("  What do you want to do?", choices=["d", "e", "q"])
 
 
 def render_database_menu() -> str:
