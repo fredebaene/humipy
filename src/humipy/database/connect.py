@@ -56,3 +56,17 @@ def _create_test_database(engine: sqlalchemy.engine.base.Engine) -> None:
         add_sensor(engine, sensor, "DHT11")
     start_sensor_placement(engine, "Bathroom", _SENSORS[0])
     start_sensor_placement(engine, "Kitchen", _SENSORS[1])
+    _push_dummy_measurements(engine)
+
+
+def _push_dummy_measurements(engine: sqlalchemy.engine.base.Engine) -> None:
+    """
+    This function inserts dummy humidity measurements into the test database.
+
+    Args:
+        engine (sqlalchemy.engine.base.Engine): a SQLAlchemy engine object.
+    """
+    for _ in range(1000):
+        push_measurement(
+            engine, random.choice(_SENSORS), random.uniform(55., 75.),
+        )
