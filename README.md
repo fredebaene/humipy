@@ -19,5 +19,5 @@ To install the application, create a virtual environment with Python 3.10 or
 higher, and then install the application from GitHub:
 
 ```
-pip install git+https://github.com/fredebaene/congol.git
+pip install git+https://github.com/fredebaene/humipy.git
 ```
