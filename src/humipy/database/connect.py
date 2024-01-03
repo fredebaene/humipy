@@ -51,3 +51,5 @@ def _create_test_database(engine: sqlalchemy.engine.base.Engine) -> None:
     sensors = [("XIE-385A92H20-T0", "DHT11"), ("XIA-502A92V37-T7", "DHT11")]
     for sensor in sensors:
         add_sensor(engine, sensor[0], sensor[1])
+    start_sensor_placement(engine, "Bathroom", "XIE-385A92H20-T0")
+    start_sensor_placement(engine, "Kitchen", "XIA-502A92V37-T7")
