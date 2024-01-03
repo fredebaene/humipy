@@ -217,7 +217,6 @@ def push_measurement(
             measurement_time=datetime.now(),
         )
     )
-
     with engine.connect() as conn:
         conn.execute(stmt)
         conn.commit()
